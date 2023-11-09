@@ -22,6 +22,16 @@ guessed_states = []
 while len(guessed_states) < 50:
     answer_state = screen.textinput(title=f"{len(guessed_states)}/50 States Correct",
                                     prompt="What´s another state´s name?").title()
+
+    if answer_state == "Exit":
+        missing_states = []
+        for state in states:
+            if state not in guessed_states:
+                missing_states.append(state)
+        new_data = pandas.DataFrame(missing_states)
+        new_data.to_csv("states_to_learn.csv")
+        break
+
     for i in range(0, len(states)):
         if answer_state == states[i]:
             x_pos = data["x"][i]
@@ -30,5 +40,6 @@ while len(guessed_states) < 50:
             merki.write(states[i])
             guessed_states.append(states[i])
 
+states_to_learn = pandas.DataFrame(guessed_states)
+states_to_learn.to_csv("Correct_States.csv")
 
-turtle.mainloop()
